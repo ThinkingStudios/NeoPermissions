@@ -23,34 +23,30 @@
  *  SOFTWARE.
  */
 
-package me.lucko.fabric.api.permissions.v0;
+package org.thinkingstudio.neopermissions.api.v0;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
-import net.fabricmc.fabric.api.util.TriState;
+import org.thinkingstudio.neopermissions.fabric.api.event.Event;
+import org.thinkingstudio.neopermissions.fabric.api.event.EventFactory;
+import net.minecraft.command.CommandSource;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
+import java.util.Optional;
 
 /**
- * Simple permissions check event for (potentially) offline players.
+ * Simple option request event for {@link CommandSource}s.
  */
-public interface OfflinePermissionCheckEvent {
+public interface OptionRequestEvent {
 
-    Event<OfflinePermissionCheckEvent> EVENT = EventFactory.createArrayBacked(OfflinePermissionCheckEvent.class, (callbacks) -> (uuid, permission) -> {
-        CompletableFuture<TriState> res = CompletableFuture.completedFuture(TriState.DEFAULT);
-        for (OfflinePermissionCheckEvent callback : callbacks) {
-            res = res.thenCompose(triState -> {
-                if (triState != TriState.DEFAULT) {
-                    return CompletableFuture.completedFuture(triState);
-                }
-                return callback.onPermissionCheck(uuid, permission);
-            });
+    Event<OptionRequestEvent> EVENT = EventFactory.createArrayBacked(OptionRequestEvent.class, (callbacks) -> (source, key) -> {
+        for (OptionRequestEvent callback : callbacks) {
+            Optional<String> value = callback.onOptionRequest(source, key);
+            if (value.isPresent()) {
+                return value;
+            }
         }
-        return res;
+        return Optional.empty();
     });
 
-    @NotNull CompletableFuture<TriState> onPermissionCheck(@NotNull UUID uuid, @NotNull String permission);
-
+    @NotNull Optional<String> onOptionRequest(@NotNull CommandSource source, @NotNull String key);
 }

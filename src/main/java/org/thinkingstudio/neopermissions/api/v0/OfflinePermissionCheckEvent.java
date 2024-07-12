@@ -23,35 +23,34 @@
  *  SOFTWARE.
  */
 
-package me.lucko.fabric.api.permissions.v0;
+package org.thinkingstudio.neopermissions.api.v0;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
-import net.fabricmc.fabric.api.util.TriState;
+import org.thinkingstudio.neopermissions.fabric.api.event.Event;
+import org.thinkingstudio.neopermissions.fabric.api.event.EventFactory;
+import org.thinkingstudio.neopermissions.fabric.api.util.TriState;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Simple option request event for (potentially) offline players.
+ * Simple permissions check event for (potentially) offline players.
  */
-public interface OfflineOptionRequestEvent {
+public interface OfflinePermissionCheckEvent {
 
-    Event<OfflineOptionRequestEvent> EVENT = EventFactory.createArrayBacked(OfflineOptionRequestEvent.class, (callbacks) -> (uuid, key) -> {
-        CompletableFuture<Optional<String>> res = CompletableFuture.completedFuture(null);
-        for (OfflineOptionRequestEvent callback : callbacks) {
-            res = res.thenCompose(value -> {
-                if (value.isPresent()) {
-                    return CompletableFuture.completedFuture(value);
+    Event<OfflinePermissionCheckEvent> EVENT = EventFactory.createArrayBacked(OfflinePermissionCheckEvent.class, (callbacks) -> (uuid, permission) -> {
+        CompletableFuture<TriState> res = CompletableFuture.completedFuture(TriState.DEFAULT);
+        for (OfflinePermissionCheckEvent callback : callbacks) {
+            res = res.thenCompose(triState -> {
+                if (triState != TriState.DEFAULT) {
+                    return CompletableFuture.completedFuture(triState);
                 }
-                return callback.onOptionRequest(uuid, key);
+                return callback.onPermissionCheck(uuid, permission);
             });
         }
         return res;
     });
 
-    @NotNull CompletableFuture<Optional<String>> onOptionRequest(@NotNull UUID uuid, @NotNull String key);
+    @NotNull CompletableFuture<TriState> onPermissionCheck(@NotNull UUID uuid, @NotNull String permission);
 
 }

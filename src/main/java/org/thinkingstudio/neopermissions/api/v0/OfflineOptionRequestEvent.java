@@ -23,30 +23,34 @@
  *  SOFTWARE.
  */
 
-package me.lucko.fabric.api.permissions.v0;
+package org.thinkingstudio.neopermissions.api.v0;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
-import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.command.CommandSource;
-
+import org.thinkingstudio.neopermissions.fabric.api.event.Event;
+import org.thinkingstudio.neopermissions.fabric.api.event.EventFactory;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Simple permissions check event for {@link CommandSource}s.
- */
-public interface PermissionCheckEvent {
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
-    Event<PermissionCheckEvent> EVENT = EventFactory.createArrayBacked(PermissionCheckEvent.class, (callbacks) -> (source, permission) -> {
-        for (PermissionCheckEvent callback : callbacks) {
-            TriState state = callback.onPermissionCheck(source, permission);
-            if (state != TriState.DEFAULT) {
-                return state;
-            }
+/**
+ * Simple option request event for (potentially) offline players.
+ */
+public interface OfflineOptionRequestEvent {
+
+    Event<OfflineOptionRequestEvent> EVENT = EventFactory.createArrayBacked(OfflineOptionRequestEvent.class, (callbacks) -> (uuid, key) -> {
+        CompletableFuture<Optional<String>> res = CompletableFuture.completedFuture(null);
+        for (OfflineOptionRequestEvent callback : callbacks) {
+            res = res.thenCompose(value -> {
+                if (value.isPresent()) {
+                    return CompletableFuture.completedFuture(value);
+                }
+                return callback.onOptionRequest(uuid, key);
+            });
         }
-        return TriState.DEFAULT;
+        return res;
     });
 
-    @NotNull TriState onPermissionCheck(@NotNull CommandSource source, @NotNull String permission);
+    @NotNull CompletableFuture<Optional<String>> onOptionRequest(@NotNull UUID uuid, @NotNull String key);
 
 }

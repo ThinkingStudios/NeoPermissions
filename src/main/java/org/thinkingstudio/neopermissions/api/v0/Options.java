@@ -23,7 +23,7 @@
  *  SOFTWARE.
  */
 
-package me.lucko.fabric.api.permissions.v0;
+package org.thinkingstudio.neopermissions.api.v0;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.command.CommandSource;

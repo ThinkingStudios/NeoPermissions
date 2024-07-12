@@ -23,10 +23,10 @@
  *  SOFTWARE.
  */
 
-package me.lucko.fabric.api.permissions.v0;
+package org.thinkingstudio.neopermissions.api.v0;
 
 import com.mojang.authlib.GameProfile;
-import net.fabricmc.fabric.api.util.TriState;
+import org.thinkingstudio.neopermissions.fabric.api.util.TriState;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;

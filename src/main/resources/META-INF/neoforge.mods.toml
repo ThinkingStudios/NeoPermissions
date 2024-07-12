@@ -1,0 +1,12 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="MIT"
+
+[[mods]]
+modId="neopermissions"
+version="${version}"
+displayName="NeoPermissions"
+displayURL="https://github.com/ThinkingStudios/NeoPermissions"
+credits="Luck"
+authors="TexTrue, ThinkingStudio"
+description="fabric-permissions-api unofficial NeoForge port. A simple permissions API for NeoForge."
