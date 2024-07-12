@@ -33,7 +33,7 @@ processResources {
 
 java {
     withSourcesJar()
-    withJavadocJar()
+    //withJavadocJar()
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
