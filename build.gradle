@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "${project.maven_group}"
-version = "${project.mod_version}+mc${project.minecraft_version}"
+version = "${project.mod_version}+${project.minecraft_version}"
 base.archivesName = "${project.archives_base_name}"
 
 repositories {
@@ -46,6 +46,10 @@ tasks.withType(JavaCompile).configureEach {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            groupId = "org.thinkingstudio"
+            artifactId = project.name.toLowerCase()
+            version = "${project.mod_version}+${project.minecraft_version}"
+
             from components.java
         }
     }
