@@ -23,11 +23,11 @@
  *  SOFTWARE.
  */
 
-package org.thinkingstudio.neopermissions.api.v0;
+package me.lucko.fabric.api.permissions.v0;
 
-import org.thinkingstudio.neopermissions.fabric.api.event.Event;
-import org.thinkingstudio.neopermissions.fabric.api.event.EventFactory;
-import org.thinkingstudio.neopermissions.fabric.api.util.TriState;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
+import net.fabricmc.fabric.api.util.TriState;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;

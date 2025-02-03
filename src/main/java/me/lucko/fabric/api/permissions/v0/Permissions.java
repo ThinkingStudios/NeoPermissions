@@ -23,15 +23,14 @@
  *  SOFTWARE.
  */
 
-package org.thinkingstudio.neopermissions.api.v0;
+package me.lucko.fabric.api.permissions.v0;
 
 import com.mojang.authlib.GameProfile;
-import org.thinkingstudio.neopermissions.fabric.api.util.TriState;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -144,7 +143,7 @@ public interface Permissions {
      */
     static @NotNull TriState getPermissionValue(@NotNull Entity entity, @NotNull String permission) {
         Objects.requireNonNull(entity, "entity");
-        return getPermissionValue(entity.getCommandSource(), permission);
+        return getPermissionValue(Util.commandSourceFromEntity(entity), permission);
     }
 
     /**
@@ -158,7 +157,7 @@ public interface Permissions {
      */
     static boolean check(@NotNull Entity entity, @NotNull String permission, boolean defaultValue) {
         Objects.requireNonNull(entity, "entity");
-        return check(entity.getCommandSource(), permission, defaultValue);
+        return check(Util.commandSourceFromEntity(entity), permission, defaultValue);
     }
 
     /**
@@ -172,7 +171,7 @@ public interface Permissions {
      */
     static boolean check(@NotNull Entity entity, @NotNull String permission, int defaultRequiredLevel) {
         Objects.requireNonNull(entity, "entity");
-        return check(entity.getCommandSource(), permission, defaultRequiredLevel);
+        return check(Util.commandSourceFromEntity(entity), permission, defaultRequiredLevel);
     }
 
     /**
@@ -185,7 +184,7 @@ public interface Permissions {
      */
     static boolean check(@NotNull Entity entity, @NotNull String permission) {
         Objects.requireNonNull(entity, "entity");
-        return check(entity.getCommandSource(), permission);
+        return check(Util.commandSourceFromEntity(entity), permission);
     }
 
     /**

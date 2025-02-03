@@ -23,34 +23,29 @@
  *  SOFTWARE.
  */
 
-package org.thinkingstudio.neopermissions.api.v0;
+package me.lucko.fabric.api.permissions.v0;
 
-import org.thinkingstudio.neopermissions.fabric.api.event.Event;
-import org.thinkingstudio.neopermissions.fabric.api.event.EventFactory;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
+import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.command.CommandSource;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-
 /**
- * Simple option request event for (potentially) offline players.
+ * Simple permissions check event for {@link CommandSource}s.
  */
-public interface OfflineOptionRequestEvent {
+public interface PermissionCheckEvent {
 
-    Event<OfflineOptionRequestEvent> EVENT = EventFactory.createArrayBacked(OfflineOptionRequestEvent.class, (callbacks) -> (uuid, key) -> {
-        CompletableFuture<Optional<String>> res = CompletableFuture.completedFuture(null);
-        for (OfflineOptionRequestEvent callback : callbacks) {
-            res = res.thenCompose(value -> {
-                if (value.isPresent()) {
-                    return CompletableFuture.completedFuture(value);
-                }
-                return callback.onOptionRequest(uuid, key);
-            });
+    Event<PermissionCheckEvent> EVENT = EventFactory.createArrayBacked(PermissionCheckEvent.class, (callbacks) -> (source, permission) -> {
+        for (PermissionCheckEvent callback : callbacks) {
+            TriState state = callback.onPermissionCheck(source, permission);
+            if (state != TriState.DEFAULT) {
+                return state;
+            }
         }
-        return res;
+        return TriState.DEFAULT;
     });
 
-    @NotNull CompletableFuture<Optional<String>> onOptionRequest(@NotNull UUID uuid, @NotNull String key);
+    @NotNull TriState onPermissionCheck(@NotNull CommandSource source, @NotNull String permission);
 
 }

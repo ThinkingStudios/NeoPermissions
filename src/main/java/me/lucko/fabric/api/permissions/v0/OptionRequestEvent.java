@@ -23,30 +23,29 @@
  *  SOFTWARE.
  */
 
-package org.thinkingstudio.neopermissions.api.v0;
+package me.lucko.fabric.api.permissions.v0;
 
-import org.thinkingstudio.neopermissions.fabric.api.event.Event;
-import org.thinkingstudio.neopermissions.fabric.api.event.EventFactory;
-import org.thinkingstudio.neopermissions.fabric.api.util.TriState;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.command.CommandSource;
-
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Simple permissions check event for {@link CommandSource}s.
- */
-public interface PermissionCheckEvent {
+import java.util.Optional;
 
-    Event<PermissionCheckEvent> EVENT = EventFactory.createArrayBacked(PermissionCheckEvent.class, (callbacks) -> (source, permission) -> {
-        for (PermissionCheckEvent callback : callbacks) {
-            TriState state = callback.onPermissionCheck(source, permission);
-            if (state != TriState.DEFAULT) {
-                return state;
+/**
+ * Simple option request event for {@link CommandSource}s.
+ */
+public interface OptionRequestEvent {
+
+    Event<OptionRequestEvent> EVENT = EventFactory.createArrayBacked(OptionRequestEvent.class, (callbacks) -> (source, key) -> {
+        for (OptionRequestEvent callback : callbacks) {
+            Optional<String> value = callback.onOptionRequest(source, key);
+            if (value.isPresent()) {
+                return value;
             }
         }
-        return TriState.DEFAULT;
+        return Optional.empty();
     });
 
-    @NotNull TriState onPermissionCheck(@NotNull CommandSource source, @NotNull String permission);
-
+    @NotNull Optional<String> onOptionRequest(@NotNull CommandSource source, @NotNull String key);
 }
