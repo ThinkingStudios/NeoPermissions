@@ -4,7 +4,7 @@ A simple permissions API for NeoForge. It allows mods to easily run permission c
 
 If you want to configure permissions, you will also need to install a compatible permission manager mod.
 
-* Downloads can be found under the [Releases](https://github.com/lucko/fabric-permissions-api/releases) tab.
+* Downloads can be found under the [Releases](https://github.com/ThinkingStudios/NeoPermissions/releases) tab.
 * Usage information for mod developers can be found in the [USAGE.md](USAGE.md) file.
 
 Enjoy!
