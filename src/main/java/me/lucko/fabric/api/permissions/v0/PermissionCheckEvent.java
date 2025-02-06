@@ -29,6 +29,7 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.command.CommandSource;
+
 import org.jetbrains.annotations.NotNull;
 
 /**

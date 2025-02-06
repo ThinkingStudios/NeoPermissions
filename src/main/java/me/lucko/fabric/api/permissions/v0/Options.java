@@ -28,6 +28,7 @@ package me.lucko.fabric.api.permissions.v0;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -135,7 +136,7 @@ public interface Options {
      */
     static @NotNull Optional<String> get(@NotNull Entity entity, @NotNull String key) {
         Objects.requireNonNull(entity, "entity");
-        return get(Util.commandSourceFromEntity(entity), key);
+        return get(entity.getCommandSource(), key);
     }
 
     /**
@@ -150,7 +151,7 @@ public interface Options {
     @Contract("_, _, !null -> !null")
     static String get(@NotNull Entity entity, @NotNull String key, String defaultValue) {
         Objects.requireNonNull(entity, "entity");
-        return get(Util.commandSourceFromEntity(entity), key, defaultValue);
+        return get(entity.getCommandSource(), key, defaultValue);
     }
 
     /**
@@ -175,7 +176,7 @@ public interface Options {
      */
     static <T> @NotNull Optional<T> get(@NotNull Entity entity, @NotNull String key, @NotNull Function<String, ? extends T> valueTransformer) {
         Objects.requireNonNull(entity, "entity");
-        return get(Util.commandSourceFromEntity(entity), key, valueTransformer);
+        return get(entity.getCommandSource(), key, valueTransformer);
     }
 
     /**
@@ -203,7 +204,7 @@ public interface Options {
     @Contract("_, _, !null, _ -> !null")
     static <T> T get(@NotNull Entity entity, @NotNull String key, T defaultValue, @NotNull Function<String, ? extends T> valueTransformer) {
         Objects.requireNonNull(entity, "entity");
-        return get(Util.commandSourceFromEntity(entity), key, defaultValue, valueTransformer);
+        return get(entity.getCommandSource(), key, defaultValue, valueTransformer);
     }
 
     /**
