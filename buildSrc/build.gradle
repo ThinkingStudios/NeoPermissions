@@ -12,12 +12,12 @@ repositories {
 dependencies {
     gradleApi()
 
-    implementation("dev.architectury:architectury-loom:1.10-SNAPSHOT")
+    implementation("dev.architectury:architectury-loom:1.11-SNAPSHOT")
 }
 
 gradlePlugin {
     plugins {
-        create("extra-plugin") {
+        register("extra-plugin") {
             id = "team.cagayakegirls.scripts"
             implementationClass = "team.cagayakegirls.scripts.CagayakeGirlsGradlePlugin"
         }
