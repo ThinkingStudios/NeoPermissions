@@ -1,31 +1,18 @@
 plugins {
-    id 'dev.architectury.loom' version '1.7-SNAPSHOT'
+    id 'team.cagayakegirls.scripts'
+    id 'dev.architectury.loom'
     id 'maven-publish'
 }
 
 group = "${project.maven_group}"
-version = "${project.mod_version}+${project.minecraft_version}"
+version = "${project.mod_version}+mc${project.minecraft_version}"
 base.archivesName = "${project.archives_base_name}"
-
-repositories {
-    maven { url "https://maven.neoforged.net/releases/" }
-    maven { url "https://dl.cloudsmith.io/public/thinkingstudio/forgifiedfabricapi/maven/" }
-}
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.layered {
-        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-        mappings "dev.architectury:yarn-mappings-patch-neoforge:${project.yarn_patch}"
-    }
+    mappings extraMappings.yarnWithPatch(project.yarn_mappings, "1.21+build.4")
     neoForge "net.neoforged:neoforge:${project.neoforge_version}"
-    // ForgifiedFabricAPI
-    for (String module in ffapi_modules.split(",")) {
-        // Fabric API Base
-        if (module == "fabric-api-base") {
-            modApi(include("org.sinytra.forgified-fabric-api:$module:0.4.42+d1308ded19")) { transitive = false }
-        }
-    }
+    modImplementation(include(forgifiedFabricApi.module("fabric-api-base", project.fabricapi_version, false)))
 }
 
 processResources {
@@ -40,7 +27,7 @@ processResources {
 
 java {
     withSourcesJar()
-    //withJavadocJar()
+    withJavadocJar()
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
@@ -56,7 +43,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = "org.thinkingstudio"
             artifactId = project.name.toLowerCase()
-            version = "${project.mod_version}+${project.minecraft_version}"
+            version = "${project.mod_version}+mc${project.minecraft_version}"
 
             from components.java
         }
@@ -64,12 +51,12 @@ publishing {
 
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/thinkingstudios/NeoPermissions")
+            name = "KTTMaven"
+            url = "https://maven.kessokuteatime.work/releases"
 
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+                username = System.getenv("KTT_MAVEN_USERNAME")
+                password = System.getenv("KTT_MAVEN_TOKEN")
             }
         }
     }
