@@ -10,3 +10,10 @@ displayURL="https://github.com/ThinkingStudios/NeoPermissions"
 credits="Luck"
 authors="TexTrue, ThinkingStudio"
 description="fabric-permissions-api unofficial NeoForge port. A simple permissions API for NeoForge."
+
+[[dependencies.neopermissions]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.4,1.21.5)"
+ordering="NONE"
+side="BOTH"
