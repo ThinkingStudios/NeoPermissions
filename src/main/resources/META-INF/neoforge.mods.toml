@@ -14,6 +14,6 @@ description="fabric-permissions-api unofficial NeoForge port. A simple permissio
 [[dependencies.neopermissions]]
 modId="minecraft"
 type="required"
-versionRange="[1.21.5,)"
+versionRange="[1.21.5,1.21.6)"
 ordering="NONE"
 side="BOTH"
