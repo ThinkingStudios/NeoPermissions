@@ -5,19 +5,31 @@
 Add the following to your build script:
 ```groovy
 repositories {
-    mavenCentral()
+    maven {
+        name = "KTTMaven"
+        url = "https://maven.kessokuteatime.work/releases"
+    }
 }
 
 dependencies {
     // Approach #1: Ensure fabric-permissions-api is always available by including it within your own jar (it's only ~12KB!)
-    include(modImplementation('me.lucko:fabric-permissions-api:0.3.1'))
+    include(modImplementation('org.thinkingstudio:neopermissions:0.1.0+mc1.21.9'))
     
     // Approach #2: Depend on fabric-permissions-api, but require that users install it themselves
-    modImplementation 'me.lucko:fabric-permissions-api:0.3.1'
+    modImplementation 'org.thinkingstudio:neopermissions:0.1.0+mc1.21.9'
 }
 ```
 
-Then depend on `"fabric-permissions-api-v0": "*"` in your fabric.mod.json.
+Then add the following to your neoforge.mods.toml file to set the dependency.
+
+```toml
+[[dependencies.your_modid]]
+modId="neopermissions"
+type="required"
+versionRange="*"
+ordering="NONE"
+side="BOTH"
+```
 
 ## Usage (checking permissions)
 
