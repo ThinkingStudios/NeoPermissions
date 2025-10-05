@@ -13,10 +13,10 @@ repositories {
 
 dependencies {
     // Approach #1: Ensure fabric-permissions-api is always available by including it within your own jar (it's only ~12KB!)
-    include(modImplementation('org.thinkingstudio:neopermissions:0.1.0+mc1.21.9'))
+    include(modImplementation('org.thinkingstudio:neopermissions:0.1.0+mc1.21.4'))
     
     // Approach #2: Depend on fabric-permissions-api, but require that users install it themselves
-    modImplementation 'org.thinkingstudio:neopermissions:0.1.0+mc1.21.9'
+    modImplementation 'org.thinkingstudio:neopermissions:0.1.0+mc1.21.4'
 }
 ```
 

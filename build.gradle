@@ -10,7 +10,7 @@ base.archivesName = "${project.archives_base_name}"
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings extraMappings.yarnWithPatch(project.yarn_mappings, "1.20.6+build.4")
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     neoForge "net.neoforged:neoforge:${project.neoforge_version}"
 }
 
